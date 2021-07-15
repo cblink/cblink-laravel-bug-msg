@@ -1,0 +1,28 @@
+{
+    "name": "cblink/laravel-bug-msg",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nick",
+            "email": "me@xieying.vip"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.0|^7.0|^8.0",
+        "phpunit/phpunit": "^7.0|^8.5|^9.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.7|^3.8|^4.0|^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cblink\\BugMsg\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cblink\\BugMsg\\Tests\\": "tests"
+        }
+    }
+}
