@@ -36,7 +36,7 @@ class ExceptionHelper
             $config,
             [
                 'env' => config('app.env', 'production'),
-                'app_name' => Arr::get($config, 'app.name'),
+                'app_name' => config('app.name', 'default'),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode(),
                 'file' => $exception->getFile(),
