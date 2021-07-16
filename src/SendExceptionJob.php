@@ -44,7 +44,7 @@ class SendExceptionJob implements ShouldQueue
             Arr::get($this->config, 'config.key', '')
         );
 
-        (new Client())->request('POST', $requestUrl, [
+        $response = (new Client())->request('POST', $requestUrl, [
             'verify' => false,
             'http_errors' => false,
             'headers' => [
@@ -53,5 +53,19 @@ class SendExceptionJob implements ShouldQueue
             'json' => $this->data,
             'timeout' => 30,
         ]);
+
+        $code = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
+
+        if ($code != 200) {
+            logger(sprintf('bibiji request fail, statusCode %s', $code));
+            return;
+        }
+
+        $body = json_decode($content, true);
+
+        if (json_last_error() || empty($body['err_code']) || $body['err_code'] != 0) {
+            logger('bibiji request fail: ', $body);
+        }
     }
 }
