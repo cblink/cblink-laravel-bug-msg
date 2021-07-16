@@ -50,7 +50,8 @@ class SendExceptionJob implements ShouldQueue
             'headers' => [
                 'Authorization' => Arr::get($this->config, 'config.token'),
             ],
-            'json' => $this->data
+            'json' => $this->data,
+            'timeout' => 30,
         ]);
     }
 }
