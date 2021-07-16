@@ -49,7 +49,7 @@ class ExceptionHelper
                 'line' => $exception->getLine(),
                 'url' => request()->fullUrl(),
                 'exception' => get_class($exception),
-                'trace' => $this->withTrace ? $exception->getTraceAsString() : '',
+                'trace' => $exception->getTraceAsString(),
             ]
         );
     }

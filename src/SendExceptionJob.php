@@ -26,21 +26,19 @@ class SendExceptionJob implements ShouldQueue
 
     private $debug;
 
-    public function __construct($config, $data, bool $debug = false)
+    public function __construct($config, $data)
     {
         $this->config = $config;
         $this->data = $data;
-        $this->debug = $debug;
     }
 
     public function handle()
     {
         $requestUrl = sprintf(
             'http://%s%s/%s',
-            $this->debug ? 'dev-' : '',
+            Arr::get($this->config, 'config.debug', false) ? 'dev-' : '',
             $this->requestUrl,
-            Arr::get($this->config, 'config.key', ''),
-
+            Arr::get($this->config, 'config.key', '')
         );
 
         (new Client())->request('POST', $requestUrl, [
