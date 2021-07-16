@@ -18,7 +18,7 @@ class SendExceptionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $requestUrl = 'http://notice.service.cblink.net/api/messenger';
+    protected $requestUrl = 'notice.service.cblink.net/api/messenger';
 
     private $config;
 
@@ -36,10 +36,11 @@ class SendExceptionJob implements ShouldQueue
     public function handle()
     {
         $requestUrl = sprintf(
-            '%s/%s%s',
+            'http://%s%s/%s',
+            $this->debug ? 'dev-' : '',
             $this->requestUrl,
             Arr::get($this->config, 'config.key', ''),
-            $this->debug ? '/debug' : ''
+
         );
 
         (new Client())->request('POST', $requestUrl, [
