@@ -3,14 +3,11 @@
 namespace Cblink\BugMsg;
 
 use Exception;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
 class ExceptionHelper
 {
-    protected $withTrace = false;
-
     /**
      * @param Exception $exception
      * @param array $config
@@ -29,13 +26,10 @@ class ExceptionHelper
         $this->notify($exception, $config);
     }
 
-    public function withTrace()
-    {
-        $this->withTrace = true;
-
-        return $this;
-    }
-
+    /**
+     * @param Exception $exception
+     * @param $config
+     */
     public function notify(Exception $exception, $config)
     {
         SendExceptionJob::dispatch(

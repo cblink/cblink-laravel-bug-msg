@@ -32,6 +32,9 @@ class SendExceptionJob implements ShouldQueue
         $this->data = $data;
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function handle()
     {
         $requestUrl = sprintf(
