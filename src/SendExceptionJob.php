@@ -65,7 +65,10 @@ class SendExceptionJob implements ShouldQueue
         $body = json_decode($content, true);
 
         if (json_last_error() || empty($body['err_code']) || $body['err_code'] != 0) {
-            logger('bibiji request fail: ', $body);
+            logger('bibiji request fail: ', [
+                'request' => $this->data,
+                'response' => $body,
+            ]);
         }
     }
 }
