@@ -9,9 +9,75 @@
 $ composer require cblink/laravel-bug-msg -vvv
 ```
 
+## Config
+
+```php
+<?php
+return [
+    'notify' => [
+        /*
+         * 是否每次错误都通知（建议 false，否则可能会轰炸）
+         */
+        'every' => false,
+
+        /*
+         * 分钟单位，该区间同一错误只提醒一次
+         */
+        'interval' => 5,
+    ],
+
+    'cache' => [
+        'prefix' => 'notice.exception.',
+    ],
+
+    // 配置信息
+    'config' => [
+        // 是否开启调试
+        'debug' => false,
+        // 通知地址的key
+        'key' => '',
+        // 通知地址的认证信息
+        'token' => '',
+    ],
+];
+```
+
 ## Usage
 
-TODO
+```php
+<?php
+
+use Cblink\BugMsg\ExceptionHelper;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+class Handler extends ExceptionHandler{
+    
+    // ...
+
+    /**
+     * Report or log an exception.
+     *
+     * @param \Exception $exception
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function report(Exception $exception)
+    {
+        if ($this->shouldReport($exception)) {
+       
+            /* 添加这段代码即可 start */
+            (new ExceptionHelper())
+            /* @var array $config 引用至配置部分 */
+            ->handle($exception, $config);
+            /* end */
+        }
+
+        parent::report($exception);
+    }
+}
+```
+
 
 ## Contributing
 

@@ -2,6 +2,7 @@
 
 namespace Cblink\BugMsg;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -20,7 +21,11 @@ class ExceptionHelper
                 return;
             }
 
-            Cache::put($this->cacheKey($config, $exception), 1, Arr::get($config, 'notify.interval', 10));
+            Cache::put(
+                $this->cacheKey($config, $exception),
+                1,
+                Carbon::now()->addMinutes(Arr::get($config, 'notify.interval', 5))
+            );
         }
 
         $this->notify($exception, $config);

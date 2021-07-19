@@ -2,7 +2,6 @@
 
 namespace Cblink\BugMsg;
 
-use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,8 +16,6 @@ use Illuminate\Support\Arr;
 class SendExceptionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    protected $requestUrl = 'notice.service.cblink.net/api/messenger';
 
     private $config;
 
@@ -37,22 +34,12 @@ class SendExceptionJob implements ShouldQueue
      */
     public function handle()
     {
-        $requestUrl = sprintf(
-            'http://%s%s/%s',
-            Arr::get($this->config, 'config.debug', false) ? 'dev-' : '',
-            $this->requestUrl,
-            Arr::get($this->config, 'config.key', '')
-        );
-
-        $response = (new Client())->request('POST', $requestUrl, [
-            'verify' => false,
-            'http_errors' => false,
-            'headers' => [
-                'Authorization' => Arr::get($this->config, 'config.token'),
-            ],
-            'json' => $this->data,
-            'timeout' => 30,
-        ]);
+        $response = (new Notify(Arr::get($this->config, 'config.debug', false)))
+            ->send(
+                Arr::get($this->config, 'config.key', ''),
+                $this->data,
+                Arr::get($this->config, 'config.token')
+            );
 
         $code = $response->getStatusCode();
         $content = $response->getBody()->getContents();
