@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 class ExceptionHelper
 {
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      * @param array $config
      */
     public function handle(Throwable $exception, array $config = [])
@@ -32,10 +32,10 @@ class ExceptionHelper
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      * @param $config
      */
-    public function notify(Exception $exception, $config)
+    public function notify(Throwable $exception, $config)
     {
         SendExceptionJob::dispatch(
             $config,
@@ -55,10 +55,10 @@ class ExceptionHelper
 
     /**
      * @param array $config
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return string
      */
-    private function cacheKey(array $config, Exception $exception): string
+    private function cacheKey(array $config, Throwable $exception): string
     {
         return Arr::get($config, 'cache.prefix', 'laravel_notify').get_class($exception).$exception->getLine();
     }
