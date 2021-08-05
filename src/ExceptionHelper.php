@@ -3,7 +3,7 @@
 namespace Cblink\BugMsg;
 
 use Carbon\Carbon;
-use Exception;
+use Throwable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,7 +13,7 @@ class ExceptionHelper
      * @param Exception $exception
      * @param array $config
      */
-    public function handle(Exception $exception, array $config = [])
+    public function handle(Throwable $exception, array $config = [])
     {
         if (!Arr::get($config, 'notify.every', false)) {
 
