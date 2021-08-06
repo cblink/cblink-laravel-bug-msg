@@ -6,7 +6,11 @@
 ## Installing
 
 ```shell
-$ composer require cblink/laravel-bug-msg -vvv
+# laravel7以上使用2.0版本
+$ composer require cblink/laravel-bug-msg ^2.0 -vvv
+
+# laravel5.5以上，7以下使用1.0版本
+$ composer require cblink/laravel-bug-msg ^1.0 -vvv
 ```
 
 ## Config
