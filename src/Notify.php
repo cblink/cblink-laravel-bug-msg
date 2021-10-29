@@ -26,12 +26,18 @@ class Notify
     protected $debug = false;
 
     /**
+     * @var string
+     */
+    protected $customUrl;
+
+    /**
      * Notify constructor.
      * @param false $debug
      */
-    public function __construct(bool $debug = false)
+    public function __construct(bool $debug = false, $customUrl = null)
     {
         $this->debug = $debug;
+        $this->customUrl = $customUrl;
     }
 
     /**
@@ -54,10 +60,9 @@ class Notify
     public function send($key, array $data = [], string $token = null): \Psr\Http\Message\ResponseInterface
     {
         $requestUrl = sprintf(
-            '%s://%s%s/%s',
+            '%s://%s/%s',
             $this->scheme,
-            $this->debug ? 'dev-' : '',
-            $this->requestUrl,
+            $this->customUrl ?: ($this->debug ? 'dev-' : '') . $this->requestUrl,
             $key
         );
 

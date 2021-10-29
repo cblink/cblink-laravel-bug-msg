@@ -19,6 +19,7 @@ return [
 
     'config' => [
         'debug' => false,
+        'base_url' => null,
         'key' => '',
         'token' => '',
     ],

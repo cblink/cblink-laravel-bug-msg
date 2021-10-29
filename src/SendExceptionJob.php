@@ -34,7 +34,10 @@ class SendExceptionJob implements ShouldQueue
      */
     public function handle()
     {
-        $response = (new Notify(Arr::get($this->config, 'config.debug', false)))
+        $response = (new Notify(
+                Arr::get($this->config, 'config.debug', false),
+                Arr::get($this->config, 'config.base_url')
+            ))
             ->send(
                 Arr::get($this->config, 'config.key', ''),
                 $this->data,
